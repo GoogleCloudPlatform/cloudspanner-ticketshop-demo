@@ -1,0 +1,61 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "uC0/YlX5RUmxgBWUtR8J2QBWEIo=",
+			"path": "github.com/go-playground/locales",
+			"revision": "e4cbcb5d0652150d40ad0646651076b6bd2be4f6",
+			"revisionTime": "2017-10-14T05:53:35Z"
+		},
+		{
+			"checksumSHA1": "YWIa2z/i81ttb1Db9fm95XnIgwI=",
+			"path": "github.com/go-playground/locales/currency",
+			"revision": "e4cbcb5d0652150d40ad0646651076b6bd2be4f6",
+			"revisionTime": "2017-10-14T05:53:35Z"
+		},
+		{
+			"checksumSHA1": "7QcjNTtW0Rc/5BPw1MPaQ6YNjso=",
+			"path": "github.com/go-playground/universal-translator",
+			"revision": "71201497bace774495daed26a3874fd339e0b538",
+			"revisionTime": "2017-03-27T19:17:03Z"
+		},
+		{
+			"checksumSHA1": "O4XpbSNeUhSIMD2FWtQximJiFIs=",
+			"path": "github.com/influxdata/influxdb/client/v2",
+			"revision": "a43cff36eeef00a32ab53d8be7dedb1740ec64a5",
+			"revisionTime": "2018-01-05T19:29:00Z"
+		},
+		{
+			"checksumSHA1": "cfumoC9gHEUROd+fA8qK3WLFAZQ=",
+			"path": "github.com/influxdata/influxdb/models",
+			"revision": "a43cff36eeef00a32ab53d8be7dedb1740ec64a5",
+			"revisionTime": "2018-01-05T19:29:00Z"
+		},
+		{
+			"checksumSHA1": "H/J/qLqzUONXIecHHKtVZmxJZZA=",
+			"path": "github.com/influxdata/influxdb/pkg/escape",
+			"revision": "a43cff36eeef00a32ab53d8be7dedb1740ec64a5",
+			"revisionTime": "2018-01-05T19:29:00Z"
+		},
+		{
+			"checksumSHA1": "l53Jm3mtlea/RzeydlryqPLeuL0=",
+			"path": "github.com/namsral/flag",
+			"revision": "67f268f20922975c067ed799e4be6bacf152208c",
+			"revisionTime": "2017-08-14T19:40:28Z"
+		},
+		{
+			"checksumSHA1": "7EZyXN0EmZLgGxZxK01IJua4c8o=",
+			"path": "golang.org/x/net/websocket",
+			"revision": "434ec0c7fe3742c984919a691b2018a6e9694425",
+			"revisionTime": "2017-09-25T09:26:47Z"
+		},
+		{
+			"checksumSHA1": "MwbHVhACDM6hFYVdlp1VRtzBdXk=",
+			"path": "gopkg.in/go-playground/validator.v9",
+			"revision": "230db62e071d40171640c9deb875d46a3858d9dd",
+			"revisionTime": "2018-01-06T03:46:09Z"
+		}
+	],
+	"rootPath": "devrel.googlesource.com/spannerkeynotedemo/dashboard"
+}

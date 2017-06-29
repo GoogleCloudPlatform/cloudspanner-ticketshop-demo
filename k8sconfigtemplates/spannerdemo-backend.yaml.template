@@ -1,0 +1,140 @@
+# Copyright 2017 Google Inc. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spannerdemo-backend-config
+  labels:
+    tier: backend
+data:
+  GOOGLE_APPLICATION_CREDENTIALS: /secret/key.json
+  PROJECT: {{PROJECT}}
+  INSTANCE: {{SPANNER_INSTANCE}}
+  DATABASE: {{SPANNER_DATABASE}}
+  CACHEEXPIRATION: "60"
+  INFLUX_DATABASE: {{INFLUX_DATABASE}}
+  INFLUX_ADDR: {{INFLUX_ADDR}}
+  INFLUX_BATCHSIZE: "5"
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  generation: 1
+  labels:
+    tier: backend
+  name: spannerdemo-backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      tier: backend
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        tier: backend
+    spec:
+      containers:
+      - image: gcr.io/{{PROJECT}}/spannerdemo-backend:{{VERSION}}
+        imagePullPolicy: Always
+        name: spannerdemo-backend
+        volumeMounts:
+        - name: secrets-volume
+          mountPath: /secret
+        ports:
+        - containerPort: 8090
+          protocol: TCP
+        resources:
+          requests:
+            cpu: 500m
+            memory: 200Mi
+          limits:
+            cpu: 1000m
+            memory: 500Mi
+        env:
+        # consume the property-like keys in environment variables
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          valueFrom:
+            configMapKeyRef:
+              name: spannerdemo-backend-config
+              key: GOOGLE_APPLICATION_CREDENTIALS
+        - name: PROJECT
+          valueFrom:
+            configMapKeyRef:
+              name: spannerdemo-backend-config
+              key: PROJECT
+        - name: INSTANCE
+          valueFrom:
+            configMapKeyRef:
+              name: spannerdemo-backend-config
+              key: INSTANCE
+        - name: DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: spannerdemo-backend-config
+              key: DATABASE
+        - name: CACHEEXPIRATION
+          valueFrom:
+            configMapKeyRef:
+              name: spannerdemo-backend-config
+              key: CACHEEXPIRATION
+        - name: INFLUX_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: spannerdemo-backend-config
+              key: INFLUX_DATABASE
+        - name: INFLUX_ADDR
+          valueFrom:
+            configMapKeyRef:
+              name: spannerdemo-backend-config
+              key: INFLUX_ADDR
+        - name: INFLUX_BATCHSIZE
+          valueFrom:
+            configMapKeyRef:
+              name: spannerdemo-backend-config
+              key: INFLUX_BATCHSIZE
+        - name: DEBUG
+          value: "true"
+      volumes:
+      # consume the file-like keys of the configmap via volume plugin
+      - name: secrets-volume
+        secret:
+          secretName: spannerdemo-secret
+          items:
+          - key: key.json
+            path: key.json
+      restartPolicy: Always
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    tier: backend
+  name: spannerdemo-backend
+spec:
+  ports:
+  - port: 8090
+    protocol: TCP
+    targetPort: 8090
+  selector:
+    tier: backend
+  sessionAffinity: None

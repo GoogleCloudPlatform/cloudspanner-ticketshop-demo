@@ -1,0 +1,73 @@
+# Copyright 2018 Google Inc. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  generation: 1
+  labels:
+    tier: backend-influxdb
+  name: spannerdemo-backend-influxdb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      tier: backend-influxdb
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        tier: backend-influxdb
+    spec:
+      containers:
+      - image: influxdb:1.4.1-alpine
+        imagePullPolicy: Always
+        name: spannerdemo-backend-influxdb
+        ports:
+        - containerPort: 8086
+          protocol: TCP
+        resources:
+          requests:
+            cpu: 500m
+            memory: 1000Mi
+          limits:
+            cpu: 2000m
+            memory: 2000Mi
+        env:
+        - name: INFLUXDB_HTTP_AUTH_ENABLED
+          value: "false"
+        - name: INFLUXDB_DB
+          value: "{{INFLUX_DATABASE}}"
+      restartPolicy: Always
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    tier: backend-influxdb
+  name: spannerdemo-backend-influxdb
+spec:
+  ports:
+  - port: 8086
+    protocol: TCP
+    targetPort: 8086
+  selector:
+    tier: backend-influxdb
+  type: LoadBalancer

@@ -1,0 +1,240 @@
+# Copyright 2017 Google Inc. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spannerdemo-dataload-config
+  labels:
+    tier: backend
+data:
+  GOOGLE_APPLICATION_CREDENTIALS: /secret/key.json
+  PROJECT: {{PROJECT}}
+  INSTANCE: {{SPANNER_INSTANCE}}
+  DATABASE: {{SPANNER_DATABASE}}
+  CONFIGFILE: /config/config.json
+  config.json: |
+    {
+        "venueConfig": {
+            "club": {
+                "weight": 100,
+                "numSeatsRange": [50, 1000],
+                "seatingConfig": {
+                    "standard": {
+                        "seatConfigMultiplier": 1,
+                        "tier": { "General": { "weight": 1 } }
+                    }
+                }
+            },
+            "auditorium": {
+                "weight": 30,
+                "numSeatsRange": [500, 2000],
+                "seatingConfig": {
+                    "standard": {
+                        "seatConfigMultiplier": 1,
+                        "tier": {
+                            "General": { "weight": 95 },
+                            "VIP": { "weight": 5 }
+                        }
+                    }
+                }
+            },
+            "arena": {
+                "weight": 10,
+                "numSeatsRange": [3000, 10000],
+                "seatingConfig": {
+                    "sports": {
+                        "seatConfigMultiplier": 1,
+                        "tier": {
+                            "General": { "weight": 60 },
+                            "Premium": { "weight": 35 },
+                            "VIP": { "weight": 5 }
+                        }
+                    },
+                    "concert": {
+                        "seatConfigMultiplier": 2,
+                        "tier": {
+                            "General": { "weight": 75 },
+                            "Premium": { "weight": 20 },
+                            "VIP": { "weight": 5 }
+                        }
+                    }
+                }
+            },
+            "stadium": {
+                "weight": 5,
+                "numSeatsRange": [10000, 100000],
+                "seatingConfig": {
+                    "sports": {
+                        "seatConfigMultiplier": 1,
+                        "tier": {
+                            "General": { "weight": 75 },
+                            "Premium": { "weight": 20 },
+                            "VIP": { "weight": 5 }
+                        }
+                    },
+                    "concert": {
+                        "seatConfigMultiplier": 2,
+                        "tier": {
+                            "General": { "weight": 85 },
+                            "Premium": { "weight": 13 },
+                            "VIP": { "weight": 2 }
+                        }
+                    }
+                }
+            },
+            "fairgrounds": {
+                "weight": 1,
+                "numSeatsRange": [200000, 1000000],
+                "seatingConfig": {
+                    "standard": {
+                        "seatConfigMultiplier": 1,
+                        "tier": {
+                            "General": { "weight": 90 },
+                            "Premium": { "weight": 9 },
+                            "VIP": { "weight": 1 }
+                        }
+                    }
+                }
+            }
+        },
+        "multiEventTypes": {
+            "smallShow": {
+                "weight": 5000,
+                "numEventsRange": [1, 10],
+                "pricingRange": {
+                    "club": { "General": [10, 50] },
+                    "auditorium": {
+                        "General": [30, 50],
+                        "VIP": [100, 200]
+                    }
+                },
+                "venueSeatingConfig": {
+                    "club": "standard",
+                    "auditorium": "standard"
+                }
+            },
+            "mediumShow": {
+                "weight": 5000,
+                "numEventsRange": [1, 10],
+                "pricingRange": {
+                    "auditorium": {
+                        "General": [40, 80],
+                        "VIP": [150, 400]
+                    }
+                },
+                "venueSeatingConfig": {
+                    "auditorium": "standard"
+                }
+            },
+            "largeShow": {
+                "weight": 500,
+                "numEventsRange": [1, 10],
+                "pricingRange": {
+                    "arena": {
+                        "General": [50, 100],
+                        "Premium": [150, 300],
+                        "VIP": [500, 1000]
+                    }
+                },
+                "venueSeatingConfig": {
+                    "arena": "concert"
+                }
+            },
+            "tour": {
+                "weight": 50,
+                "numEventsRange": [10, 100],
+                "pricingRange": {
+                    "auditorium": {
+                        "General": [50, 100],
+                        "VIP": [250, 1000]
+                    },
+                    "arena": {
+                        "General": [50, 100],
+                        "Premium": [200, 500],
+                        "VIP": [800, 2000]
+                    },
+                    "stadium": {
+                        "General": [50, 100],
+                        "Premium": [200, 500],
+                        "VIP": [1000, 2000]
+                    }
+                },
+                "venueSeatingConfig": {
+                    "auditorium": "standard",
+                    "arena": "concert",
+                    "stadium": "concert"
+                }
+            },
+            "sports": {
+                "weight": 50,
+                "numEventsRange": [50, 150],
+                "pricingRange": {
+                    "arena": {
+                        "General": [50, 200],
+                        "Premium": [300, 500],
+                        "VIP": [1000, 2000]
+                    },
+                    "stadium": {
+                        "General": [50, 200],
+                        "Premium": [300, 500],
+                        "VIP": [1000, 2000]
+                    }
+                },
+                "venueSeatingConfig": {
+                    "arena": "sports",
+                    "stadium": "sports"
+                }
+            },
+            "festival": {
+                "weight": 20,
+                "numEventsRange": [1],
+                "pricingRange": {
+                    "fairgrounds": {
+                        "General": [50, 200],
+                        "Premium": [300, 500],
+                        "VIP": [2000, 10000]
+                    }
+                },
+                "venueSeatingConfig": {
+                    "fairgrounds": "standard"
+                }
+            },
+            "games": {
+                "weight": 1,
+                "numEventsRange": [100, 200],
+                "pricingRange": {
+                    "auditorium": {
+                        "General": [50, 100],
+                        "VIP": [300, 500]
+                    },
+                    "arena": {
+                        "General": [50, 100],
+                        "Premium": [200, 800],
+                        "VIP": [1000, 5000]
+                    },
+                    "stadium": {
+                        "General": [50, 500],
+                        "Premium": [1000, 2000],
+                        "VIP": [3000, 10000]
+                    }
+                },
+                "venueSeatingConfig": {
+                    "auditorium": "standard",
+                    "arena": "sports",
+                    "stadium": "sports"
+                }
+            }
+        }
+    }
