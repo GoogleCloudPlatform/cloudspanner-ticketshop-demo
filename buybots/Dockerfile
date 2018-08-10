@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM python:alpine3.7
+FROM python:alpine3.6
 
 ADD main.py /app/
 ADD requirements.txt /app/
