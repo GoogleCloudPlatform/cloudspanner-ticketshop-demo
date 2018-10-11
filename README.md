@@ -59,6 +59,8 @@ gcloud services enable container.googleapis.com
 gcloud services enable compute.googleapis.com
 gcloud services enable spanner.googleapis.com
 gcloud services enable containerregistry.googleapis.com
+gcloud services enable cloudresourcemanager.googleapis.com
+gcloud services enable iam.googleapis.com
 
 gcloud iam service-accounts create spanner-demo-gce-svc-acc \
 --display-name "Cloud Spanner Demo GCE Service Account"
@@ -71,7 +73,7 @@ serviceAccount:spanner-demo-gce-svc-acc@$PROJECT.iam.gserviceaccount.com \
 PROJECT=`gcloud config get-value project 2> /dev/null`; gcloud compute \
 instances create demo-controller-01 --zone europe-west1-c --machine-type \
 n1-standard-1 --scopes "https://www.googleapis.com/auth/cloud-platform" \
---image-project ubuntu-os-cloud --image-family ubuntu-1710 --service-account \
+--image-project ubuntu-os-cloud --image-family ubuntu-1804-lts --service-account \
 spanner-demo-gce-svc-acc@$PROJECT.iam.gserviceaccount.com
 
 gcloud compute scp scripts/setup-demo-controller.sh \
