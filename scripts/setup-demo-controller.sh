@@ -17,10 +17,10 @@ apt update
 apt upgrade -y
 apt install -y apt-transport-https ca-certificates curl software-properties-common build-essential tmux git
 # for docker install
-apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
-apt-add-repository 'deb https://apt.dockerproject.org/repo ubuntu-zesty main'
-apt update
-apt install -y docker-engine
+#apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+#apt-add-repository 'deb https://apt.dockerproject.org/repo ubuntu-zesty main'
+#apt update
+apt install -y docker.io kubectl
 # gcloud-sdk update
 export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
 echo "deb https://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
