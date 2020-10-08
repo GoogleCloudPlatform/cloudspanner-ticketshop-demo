@@ -23,7 +23,7 @@ data:
   INFLUX_ADDR: {{INFLUX_ADDR}}
   REFRESH_CYCLE_MS: "{{REFRESH_CYCLE_MS}}"
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   generation: 1

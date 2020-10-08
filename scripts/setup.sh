@@ -264,7 +264,7 @@ case "$response" in
         while [ 1 ]; do
             kubectlout=$(kubectl --context $CLUSTER_PREFIX$primary_region-01 get job spannerdemo-venuesload)
 
-            regex="spannerdemo-venuesload[[:space:]]+([0-9]*)[[:space:]]+([0-9]*)"
+            regex="spannerdemo-venuesload[[:space:]]+([0-9]*)/+([0-9]*)[[:space:]]+([0-9]*)"
             if [[ $kubectlout =~ $regex ]];
             then
                 echo "checking if venues load job is finished..."
@@ -285,7 +285,7 @@ case "$response" in
         while [ 1 ]; do
             kubectlout=$(kubectl --context $CLUSTER_PREFIX$primary_region-01 get job spannerdemo-ticketsload)
 
-            regex="spannerdemo-ticketsload[[:space:]]+([0-9]*)[[:space:]]+([0-9]*)"
+            regex="spannerdemo-ticketsload[[:space:]]+([0-9]*)/+([0-9]*)[[:space:]]+([0-9]*)"
             if [[ $kubectlout =~ $regex ]];
             then
                 echo "checking if ticket load job is finished..."

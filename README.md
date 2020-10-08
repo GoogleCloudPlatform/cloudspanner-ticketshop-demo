@@ -38,7 +38,7 @@ Google Compute Engine (GCE) instance with the following packages pre-installed
 * build-essential
 * tmux
 * git
-* docker-engine
+* docker.io
 
 ### Setting up the demo controller instance
 
