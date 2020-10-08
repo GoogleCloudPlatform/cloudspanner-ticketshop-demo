@@ -20,12 +20,11 @@ apt install -y apt-transport-https ca-certificates curl software-properties-comm
 #apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
 #apt-add-repository 'deb https://apt.dockerproject.org/repo ubuntu-zesty main'
 #apt update
-apt install -y docker.io kubectl
 # gcloud-sdk update
 export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
 echo "deb https://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
 curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-apt update && apt install -y google-cloud-sdk kubectl
+apt update && apt install -y google-cloud-sdk kubectl docker.io
 
 PROJECT=`gcloud config get-value project 2> /dev/null`; gcloud projects add-iam-policy-binding $PROJECT --member serviceAccount:spanner-demo-gce-svc-acc@$PROJECT.iam.gserviceaccount.com --role roles/spanner.admin
 PROJECT=`gcloud config get-value project 2> /dev/null`; gcloud projects add-iam-policy-binding $PROJECT --member serviceAccount:spanner-demo-gce-svc-acc@$PROJECT.iam.gserviceaccount.com --role roles/container.admin
